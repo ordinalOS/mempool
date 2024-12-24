@@ -39,7 +39,7 @@ services:
     stop_grace_period: 1m
     command: "./wait-for-it.sh 127.0.0.1:3306 --timeout=720 --strict -- ./start.sh"
     volumes:
-      - ./data:/backend/cache
+      - /home/bitcoin/mempool/docker/data:/backend/cache
     network_mode: "host"
     labels:
       - "coolify.enable=true"
@@ -59,7 +59,7 @@ services:
     ports:
       - "127.0.0.1:3306:3306"
     volumes:
-      - ./mysql/data:/var/lib/mysql
+      - /home/bitcoin/mempool/docker/mysql/data:/var/lib/mysql
     networks:
       - default
     labels:
