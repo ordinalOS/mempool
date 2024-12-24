@@ -4,16 +4,16 @@ services:
   web:
     environment:
       FRONTEND_HTTP_PORT: "8080"
-      BACKEND_MAINNET_HTTP_HOST: "127.0.0.1"
-      BACKEND_MAINNET_HTTP_PORT: "8999"
+      BACKEND_MAINNET_HTTP_HOST: "api"
     image: mempool/frontend:latest
     user: "1000:1000"
     restart: on-failure
     stop_grace_period: 1m
-    command: "nginx -g 'daemon off;'"
+    command: "./wait-for db:3306 --timeout=720 -- nginx -g 'daemon off;'"
     ports:
       - 8888:8080
-    network_mode: "host"
+    networks:
+      - default
     labels:
       - "coolify.enable=true"
       - "coolify.version=1"
@@ -22,13 +22,12 @@ services:
   api:
     environment:
       MEMPOOL_BACKEND: "none"
-      CORE_RPC_HOST: "${CORE_RPC_HOST:-127.0.0.1}"
-      CORE_RPC_PORT: "${CORE_RPC_PORT:-8332}"
-      CORE_RPC_USERNAME: "${CORE_RPC_USERNAME:-mempool}"
-      CORE_RPC_PASSWORD: "${CORE_RPC_PASSWORD:-mempool}"
+      CORE_RPC_HOST: "172.27.0.1"
+      CORE_RPC_PORT: "8332"
+      CORE_RPC_USERNAME: "mempool"
+      CORE_RPC_PASSWORD: "mempool"
       DATABASE_ENABLED: "true"
-      DATABASE_HOST: "127.0.0.1"
-      DATABASE_PORT: "3306"
+      DATABASE_HOST: "db"
       DATABASE_DATABASE: "mempool"
       DATABASE_USERNAME: "mempool"
       DATABASE_PASSWORD: "mempool"
@@ -37,10 +36,11 @@ services:
     user: "1000:1000"
     restart: on-failure
     stop_grace_period: 1m
-    command: "./wait-for-it.sh 127.0.0.1:3306 --timeout=720 --strict -- ./start.sh"
+    command: "./wait-for-it.sh db:3306 --timeout=720 --strict -- ./start.sh"
     volumes:
-      - /home/bitcoin/mempool/docker/data:/backend/cache
-    network_mode: "host"
+      - ./data:/backend/cache
+    networks:
+      - default
     labels:
       - "coolify.enable=true"
       - "coolify.version=1"
@@ -59,7 +59,7 @@ services:
     ports:
       - "127.0.0.1:3306:3306"
     volumes:
-      - /home/bitcoin/mempool/docker/mysql/data:/var/lib/mysql
+      - ./mysql/data:/var/lib/mysql
     networks:
       - default
     labels:
