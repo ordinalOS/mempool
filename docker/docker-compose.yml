@@ -11,7 +11,7 @@ services:
     stop_grace_period: 1m
     command: "./wait-for db:3306 --timeout=720 -- nginx -g 'daemon off;'"
     ports:
-      - 8080:8080
+      - 8888:8080
     networks:
       - coolify
     labels:
