@@ -11,7 +11,7 @@ services:
     stop_grace_period: 1m
     command: "./wait-for db:3306 --timeout=720 -- nginx -g 'daemon off;'"
     ports:
-      - 8888:8888
+      - "8888:8888"
     networks:
       - default
     labels:
@@ -21,7 +21,7 @@ services:
 
   api:
     environment:
-      MEMPOOL_BACKEND: "electrum"
+      MEMPOOL_BACKEND: "none"
       CORE_RPC_HOST: "127.0.0.1"
       CORE_RPC_PORT: "8332"
       CORE_RPC_USERNAME: "${CORE_RPC_USERNAME:-bitcoin}"
