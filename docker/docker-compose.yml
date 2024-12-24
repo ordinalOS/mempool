@@ -32,7 +32,7 @@ services:
       
       # Database
       DATABASE_ENABLED: "true"
-      DATABASE_HOST: "${DATABASE_HOST:-localhost}"
+      DATABASE_HOST: "db"
       DATABASE_PORT: "3306"
       DATABASE_DATABASE: "mempool"
       DATABASE_USERNAME: "mempool"
