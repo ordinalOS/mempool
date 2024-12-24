@@ -37,12 +37,9 @@ services:
     restart: on-failure
     stop_grace_period: 1m
     command: "./wait-for-it.sh db:3306 --timeout=720 --strict -- ./start.sh"
-    ports:
-      - "8999:8999"
+    network_mode: "host"
     volumes:
       - ./data:/backend/cache
-    networks:
-      - default
     labels:
       - "coolify.enable=true"
       - "coolify.version=1"
