@@ -32,7 +32,7 @@ services:
       
       # Database
       DATABASE_ENABLED: "true"
-      DATABASE_HOST: "db"
+      DATABASE_HOST: "127.0.0.1"
       DATABASE_PORT: "3306"
       DATABASE_DATABASE: "mempool"
       DATABASE_USERNAME: "mempool"
@@ -52,13 +52,12 @@ services:
     user: "1000:1000"
     restart: on-failure
     stop_grace_period: 1m
-    command: "./wait-for-it.sh db:3306 --timeout=720 --strict -- ./start.sh"
+    command: "./wait-for-it.sh 127.0.0.1:3306 --timeout=720 --strict -- ./start.sh"
     volumes:
       - mempool_cache:/backend/cache
     depends_on:
       - db
-    networks:
-      - default
+    network_mode: "host"
     labels:
       - "coolify.enable=true"
       - "coolify.version=1"
