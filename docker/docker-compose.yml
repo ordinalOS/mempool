@@ -27,7 +27,7 @@ services:
       CORE_RPC_USERNAME: "bitcoin"
       CORE_RPC_PASSWORD: "5cb9655ae8b0254966e46b7bd9046333329d43bf64ff16acaba8b337a72ed8e1"
       DATABASE_ENABLED: "true"
-      DATABASE_HOST: "db"
+      DATABASE_HOST: "172.17.0.1"
       DATABASE_DATABASE: "mempool"
       DATABASE_USERNAME: "mempool"
       DATABASE_PASSWORD: "mempool"
@@ -36,7 +36,7 @@ services:
     user: "1000:1000"
     restart: on-failure
     stop_grace_period: 1m
-    command: "./wait-for-it.sh db:3306 --timeout=720 --strict -- ./start.sh"
+    command: "./wait-for-it.sh 172.17.0.1:3306 --timeout=720 --strict -- ./start.sh"
     network_mode: "host"
     volumes:
       - ./data:/backend/cache
