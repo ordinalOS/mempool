@@ -22,7 +22,7 @@ services:
   api:
     environment:
       MEMPOOL_BACKEND: "none"
-      CORE_RPC_HOST: "http://172.17.0.1:8332"
+      CORE_RPC_HOST: "172.17.0.1:8332"
       CORE_RPC_USERNAME: "bitcoin"
       CORE_RPC_PASSWORD: "5cb9655ae8b0254966e46b7bd9046333329d43bf64ff16acaba8b337a72ed8e1"
       DATABASE_ENABLED: "true"
